@@ -19,11 +19,12 @@ public class Reading {
     @EmbeddedId
     private ReadingId id;
 
-    // Associacao de navegacao para o Slot. Compartilha a coluna SLOT_ID com a chave composta,
-    // por isso e read-only aqui (insertable/updatable = false): quem grava SLOT_ID e o @EmbeddedId.
-    // O valor da FK e definido via id.slotId; este campo serve so para ler o Slot.
+    // A coluna SLOT_ID e, ao mesmo tempo, parte da PK composta E a FK para o Slot.
+    // @MapsId("slotId") amarra o atributo slotId do @EmbeddedId a esta associacao:
+    // o Hibernate usa UMA unica coluna (slot_id), preenchendo id.slotId a partir do slot.
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "slot_id", insertable = false, updatable = false)
+    @MapsId("slotId")
+    @JoinColumn(name = "slot_id")
     private Slot slot;
 
     private BigDecimal humidity;
