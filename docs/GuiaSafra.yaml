@@ -1,0 +1,706 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: GuiaSafraJava
+meta:
+  id: wrk_5f2b42373a87482cb7baf68509284098
+  created: 1780704022787
+  modified: 1780704022787
+  description: ""
+collection:
+  - name: 01-Usuarios
+    meta:
+      id: fld_a28cd2e140644db4892bcfbeddc2b421
+      created: 1780000001000
+      modified: 1780000001000
+      sortKey: -1780000001000
+      description: CRUD dos produtores/operadores. Senha hasheada com BCrypt.
+    children:
+      - url: "{{ _.base_url }}/usuarios"
+        name: PostUsuario
+        meta:
+          id: req_2854d21b07af4277a5086cfa31fcb6ac
+          created: 1780000001100
+          modified: 1780000001100
+          isPrivate: false
+          description: Cria usuário. role é opcional (default PRODUCER). Retorna 201; 400
+            validação; 409 email duplicado.
+          sortKey: -1780000001100
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Orlando Gonçalves",
+              "email": "orlando@agromonitor.com",
+              "password": "Senha12345",
+              "role": "PRODUCER"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuarios?page=0&size=10"
+        name: GetUsuarios
+        meta:
+          id: req_61299306566145f09e695ddf8091d027
+          created: 1780000001200
+          modified: 1780000001200
+          isPrivate: false
+          description: "Lista paginada. Filtros opcionais: name, email."
+          sortKey: -1780000001200
+        method: GET
+        parameters:
+          - name: page
+            value: "0"
+          - name: size
+            value: "10"
+          - name: name
+            value: ""
+            disabled: true
+          - name: email
+            value: ""
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuarios/41"
+        name: GetUsuarioById
+        meta:
+          id: req_70c0091851a142b391de4639e1856464
+          created: 1780000001300
+          modified: 1780704365698
+          isPrivate: false
+          description: Busca por ID. 200 encontrado; 404 não encontrado.
+          sortKey: -1780000001300
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuarios/1"
+        name: PutUsuario
+        meta:
+          id: req_8847fa2bd6024142b5523be9775f6040
+          created: 1780000001400
+          modified: 1780000001400
+          isPrivate: false
+          description: Atualiza usuário (senha re-hasheada). 200; 400; 404; 409.
+          sortKey: -1780000001400
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Orlando G. Atualizado",
+              "email": "orlando@agromonitor.com",
+              "password": "NovaSenha123",
+              "role": "ADMIN"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuarios/1"
+        name: DeleteUsuario
+        meta:
+          id: req_b9eb06a0fd174b2a9869915ee63b746a
+          created: 1780000001500
+          modified: 1780000001500
+          isPrivate: false
+          description: Remove usuário. 204; 404.
+          sortKey: -1780000001500
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: 02-Previsoes
+    meta:
+      id: fld_383abb51881d40638f53e1d30ec9c160
+      created: 1780000002000
+      modified: 1780000002000
+      sortKey: -1780000002000
+      description: Previsão climática (Open-Meteo). Sincronização e CRUD.
+    children:
+      - url: "{{ _.base_url }}/previsoes/sincronizar?dias=7"
+        name: PostSincronizarPrevisoes
+        meta:
+          id: req_11cbd16b69814132b6167f05039ec219
+          created: 1780000002100
+          modified: 1780000002100
+          isPrivate: false
+          description: Busca previsão dos próximos N dias na Open-Meteo e persiste. 200;
+            502 falha API externa.
+          sortKey: -1780000002100
+        method: POST
+        parameters:
+          - name: dias
+            value: "7"
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/previsoes"
+        name: PostPrevisaoManual
+        meta:
+          id: req_ce93eb3e5d8243b2a8f6a75f91b25981
+          created: 1780000002200
+          modified: 1780000002200
+          isPrivate: false
+          description: Cria previsão manualmente (uso pontual). source = MANUAL. 201; 400.
+          sortKey: -1780000002200
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "forecastDate": "2026-06-10",
+              "minTemp": 8.5,
+              "maxTemp": 24.0,
+              "rainfallMm": 3.2,
+              "frostProb": 35.0
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/previsoes?page=0&size=10"
+        name: GetPrevisoes
+        meta:
+          id: req_a903692df3d44fe3a79c50eabdefaea0
+          created: 1780000002300
+          modified: 1780000002300
+          isPrivate: false
+          description: "Lista paginada. Filtros opcionais: source (MANUAL/SATELLITE), date
+            (yyyy-MM-dd)."
+          sortKey: -1780000002300
+        method: GET
+        parameters:
+          - name: page
+            value: "0"
+          - name: size
+            value: "10"
+          - name: source
+            value: ""
+            disabled: true
+          - name: date
+            value: ""
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/previsoes/1"
+        name: GetPrevisaoById
+        meta:
+          id: req_5dd40213373e4fd0ae2e1f6ed344e588
+          created: 1780000002400
+          modified: 1780000002400
+          isPrivate: false
+          description: Busca por ID. 200; 404.
+          sortKey: -1780000002400
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/previsoes/1"
+        name: DeletePrevisao
+        meta:
+          id: req_58f217929bdf43e4933f976c29ace521
+          created: 1780000002500
+          modified: 1780000002500
+          isPrivate: false
+          description: Remove previsão. 204; 404.
+          sortKey: -1780000002500
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: 03-Leituras
+    meta:
+      id: fld_84d4f158f98c473290e9f2f0ca2bfd49
+      created: 1780000003000
+      modified: 1780000003000
+      sortKey: -1780000003000
+      description: Medições dos sensores (ESP32). Chave composta slot + instante.
+    children:
+      - url: "{{ _.base_url }}/leituras"
+        name: PostLeitura
+        meta:
+          id: req_2afa971d6a5f4a8390e6a36d645bc7bb
+          created: 1780000003100
+          modified: 1780000003100
+          isPrivate: false
+          description: Registra leitura. readTimestamp opcional (default = agora). slotId
+            deve existir (domínio C#). 201; 400; 404; 409 duplicada.
+          sortKey: -1780000003100
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "slotId": 1,
+              "readTimestamp": "2026-06-05T12:00:00",
+              "humidity": 42.7,
+              "temperature": 21.3
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/leituras?page=0&size=10"
+        name: GetLeituras
+        meta:
+          id: req_b834468c568045c38711392dac44dc52
+          created: 1780000003200
+          modified: 1780000003200
+          isPrivate: false
+          description: "Lista paginada. Filtro opcional: slotId."
+          sortKey: -1780000003200
+        method: GET
+        parameters:
+          - name: page
+            value: "0"
+          - name: size
+            value: "10"
+          - name: slotId
+            value: "1"
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/leituras/1/2026-06-05T12:00:00"
+        name: GetLeituraByChaveComposta
+        meta:
+          id: req_4899db1701794718be5b7cc58224f84f
+          created: 1780000003300
+          modified: 1780000003300
+          isPrivate: false
+          description: "Busca pela chave composta: /{slotId}/{readTimestamp ISO}. 200; 404."
+          sortKey: -1780000003300
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/leituras/1/2026-06-05T12:00:00"
+        name: DeleteLeitura
+        meta:
+          id: req_58fc1d64dfd34545a83f94f4ec24683e
+          created: 1780000003400
+          modified: 1780000003400
+          isPrivate: false
+          description: Remove pela chave composta. 204; 404.
+          sortKey: -1780000003400
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: 04-Regas
+    meta:
+      id: fld_bd16413ed93f4439afdd2fb106d37eb2
+      created: 1780000004000
+      modified: 1780000004000
+      sortKey: -1780000004000
+      description: Eventos de rega (subclasse de Event, herança @MappedSuperclass).
+    children:
+      - url: "{{ _.base_url }}/regas"
+        name: PostRegaManual
+        meta:
+          id: req_5be804de785740feacda67d4df7b822f
+          created: 1780000004100
+          modified: 1780000004100
+          isPrivate: false
+          description: Registra rega MANUAL (com userId). eventTime opcional (default =
+            agora). 201; 400; 404.
+          sortKey: -1780000004100
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "slotId": 1,
+              "userId": 1,
+              "origin": "MANUAL",
+              "volumeMl": 500,
+              "eventTime": "2026-06-05T08:30:00"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/regas"
+        name: PostRegaAutomatica
+        meta:
+          id: req_0090804eb2af47a1b3a294015ce92e2d
+          created: 1780000004150
+          modified: 1780000004150
+          isPrivate: false
+          description: Registra rega AUTOMATIC (userId nulo). 201.
+          sortKey: -1780000004150
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "slotId": 1,
+              "origin": "AUTOMATIC",
+              "volumeMl": 300
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/regas?page=0&size=10"
+        name: GetRegas
+        meta:
+          id: req_07d646687363424ebeff3cdea4e06f2e
+          created: 1780000004200
+          modified: 1780000004200
+          isPrivate: false
+          description: "Lista paginada. Filtro opcional: slotId."
+          sortKey: -1780000004200
+        method: GET
+        parameters:
+          - name: page
+            value: "0"
+          - name: size
+            value: "10"
+          - name: slotId
+            value: "1"
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/regas/1"
+        name: GetRegaById
+        meta:
+          id: req_f7a52abde2c64f359132503a3cdae578
+          created: 1780000004300
+          modified: 1780000004300
+          isPrivate: false
+          description: Busca por ID. 200; 404.
+          sortKey: -1780000004300
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/regas/1"
+        name: DeleteRega
+        meta:
+          id: req_8fb4d61048884d14b0cd39d157a82f06
+          created: 1780000004400
+          modified: 1780000004400
+          isPrivate: false
+          description: Remove rega. 204; 404.
+          sortKey: -1780000004400
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: 05-Alertas
+    meta:
+      id: fld_4ac512907fe7443ca10609e0b79be920
+      created: 1780000005000
+      modified: 1780000005000
+      sortKey: -1780000005000
+      description: Alertas do domínio (subclasse de Event). Filtro por slot/situação e
+        resolução.
+    children:
+      - url: "{{ _.base_url }}/alertas"
+        name: PostAlerta
+        meta:
+          id: req_4c9d3e8c9dbb46d2a9ccfb08f8dba84c
+          created: 1780000005100
+          modified: 1780000005100
+          isPrivate: false
+          description: "Registra alerta (nasce em aberto/resolved='N'). alertTime opcional
+            (default = agora). severity: LOW|MEDIUM|CRITICAL. 201; 400; 404."
+          sortKey: -1780000005100
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "slotId": 1,
+              "alertType": "FROST_RISK",
+              "severity": "CRITICAL",
+              "message": "Risco de geada nas próximas 12h",
+              "alertTime": "2026-06-05T06:00:00"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/alertas?page=0&size=10"
+        name: GetAlertas
+        meta:
+          id: req_beeb9ac7b26344e6ba979e015c5b4a33
+          created: 1780000005200
+          modified: 1780000005200
+          isPrivate: false
+          description: "Lista paginada. Filtros opcionais: slotId, resolved (true/false)."
+          sortKey: -1780000005200
+        method: GET
+        parameters:
+          - name: page
+            value: "0"
+          - name: size
+            value: "10"
+          - name: slotId
+            value: "1"
+            disabled: true
+          - name: resolved
+            value: "false"
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/alertas/1"
+        name: GetAlertaById
+        meta:
+          id: req_d023de292ccd4baeaa499ef26bf812d1
+          created: 1780000005300
+          modified: 1780000005300
+          isPrivate: false
+          description: Busca por ID. 200; 404.
+          sortKey: -1780000005300
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/alertas/1/resolver"
+        name: PutResolverAlerta
+        meta:
+          id: req_a1ff2d2eae6342599f05343fe039e171
+          created: 1780000005400
+          modified: 1780000005400
+          isPrivate: false
+          description: Marca alerta como resolvido (RESOLVED='S'). Idempotente. 200; 404.
+          sortKey: -1780000005400
+        method: PUT
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/alertas/1"
+        name: DeleteAlerta
+        meta:
+          id: req_3ea83dac414e4aea9d288bb5624ae7d6
+          created: 1780000005500
+          modified: 1780000005500
+          isPrivate: false
+          description: Remove alerta. 204; 404.
+          sortKey: -1780000005500
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_638d63e04a164bf4b2a2f9063ceec593
+    created: 1780000000000
+    modified: 1780000000000
+environments:
+  name: Base Environment
+  meta:
+    id: env_e11a4572325f499b9d21aadf63002611
+    created: 1780000000000
+    modified: 1780000000000
+    isPrivate: false
+  data:
+    base_url: http://localhost:8080
