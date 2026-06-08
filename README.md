@@ -360,7 +360,7 @@ Preencha o `.env` com suas credenciais:
 DB_URL=jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
 DB_USERNAME=seu_rm
 DB_PASSWORD=sua_senha
-SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+SPRING_JPA_HIBERNATE_DDL_AUTO=update
 ```
 
 Salve com `Ctrl+O` → `Enter` → `Ctrl+X`.
