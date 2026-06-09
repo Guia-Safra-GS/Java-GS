@@ -325,8 +325,10 @@ mvnw.cmd spring-boot:run
 3. A API sobe em `http://localhost:8080`. A partir daí, acesse o Swagger em
 `http://localhost:8080/swagger-ui.html` ou chame os endpoints diretamente.
 
-Observação sobre o banco: a aplicação roda com `ddl-auto=create-drop` via variável de ambiente,
-portanto as tabelas são criadas automaticamente ao subir e removidas ao encerrar.
+Observação sobre o banco: a aplicação roda com `ddl-auto=validate`. As tabelas já existem no
+Oracle compartilhado (criadas pelo script PL/SQL e pelo módulo .NET de cadastro), então o
+Hibernate apenas valida, no startup, se o mapeamento das entidades bate com o schema — nunca
+cria, altera ou remove tabelas. Isso preserva os dados a cada restart/deploy.
 
 ---
 
