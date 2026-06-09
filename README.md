@@ -7,11 +7,10 @@ Disciplina: Java Advanced
 
 ## Links da entrega
 
-- **Deploy (URL pública da API):** `link`
-- **Documentação da API (Swagger UI):** `link`
-- **Vídeo de apresentação:** `link`
-- **Vídeo pitch (até 3 min):** `link`
-- **Repositório:** `link`
+- **Deploy da API Render (Swagger UI):** `https://guia-safra-api.onrender.com/swagger-ui/index.html#/`
+- **Vídeo de apresentação:** `https://youtu.be/9hRflqRD4Xo`
+- **Vídeo pitch (até 3 min):** `https://youtu.be/ry_7CtQRc1M/`
+- **Repositório:** `https://github.com/Guia-Safra-GS/Java-GS/`
 
 ---
 
